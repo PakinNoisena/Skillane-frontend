@@ -1,20 +1,17 @@
 "use client";
-import Image from "next/image";
-import ProfileCard from "@/components/profile-card";
+
+import { useEffect, useState } from "react";
+import Profile from "@/components/profile";
+import ProfileEdit from "@/components/profile-edit";
 
 export default function Home() {
+  // State to control visibility
+  const [hide, setHide] = useState(false);
+
   return (
     <section>
-      <div className="w-full h-[40vh] relative bg-dark-green">
-        <Image
-          src="/images/skillane-logo.png"
-          alt="skillane logo"
-          width={80}
-          height={80}
-          className="object-cover rounded-full absolute top-10 left-10"
-        />
-      </div>
-      <ProfileCard />
+      <Profile hide={hide} setHide={setHide} />
+      {/* <ProfileEdit /> */}
     </section>
   );
 }
