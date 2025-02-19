@@ -1,40 +1,19 @@
-import { useAuthManagementStore } from "@/stores/auth.store";
+import { apiRequest } from "@/utils/api-request";
+import { UserManagement } from "../models/user.model";
 
-export default () => {
-  return {
-    async getUserProfile() {
-      const { accessToken } = useAuthManagementStore.getState();
-      try {
-        const baseUrl = "http://localhost:8080/skillane/users/profile";
+export const UserService = {
+  async getUserProfile() {
+    return apiRequest("/users/profile", "GET");
+  },
 
-        // ✅ Retrieve token dynamically from Zustand
+  async updateUserProfile(body: Partial<UserManagement>) {
+    return apiRequest("/users/profile", "PATCH", body);
+  },
 
-        if (!accessToken) {
-          throw new Error(
-            "No access token found. User might not be logged in."
-          );
-        }
+  async uploadImage(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
 
-        const headers = {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        };
-
-        const response = await fetch(baseUrl, {
-          method: "GET",
-          headers: headers,
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-
-        const results = await response.json();
-        return results;
-      } catch (error) {
-        console.error("Error fetching User Profile:", error);
-        throw error;
-      }
-    },
-  };
+    return apiRequest("/upload", "POST", formData, true);
+  },
 };

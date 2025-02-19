@@ -3,7 +3,6 @@ export const getAge = (dob: string) => {
   const today = new Date();
   let age = today.getFullYear() - birthDate.getFullYear();
 
-  // Adjust age if birthday hasn't occurred yet this year
   const monthDiff = today.getMonth() - birthDate.getMonth();
   if (
     monthDiff < 0 ||

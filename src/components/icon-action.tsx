@@ -7,6 +7,7 @@ export interface IconActionProps {
   iconText?: string;
   iconTextClass?: string;
   action?: () => void;
+  iconColor?: string;
 }
 
 const IconAction = (props: IconActionProps) => {
@@ -17,7 +18,7 @@ const IconAction = (props: IconActionProps) => {
         fill="none"
         viewBox="0 0 24 24"
         strokeWidth={props.strokeWidth}
-        stroke="currentColor"
+        stroke={props.iconColor ? props.iconColor : "currentColor"}
         className={props.className || ""}
       >
         <path strokeLinecap="round" strokeLinejoin="round" d={props.icon} />

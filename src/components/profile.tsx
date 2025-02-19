@@ -6,11 +6,9 @@ import IconAction from "@/components/icon-action";
 import { useUserManagementStore } from "@/stores/user.store";
 import { UserManagement } from "@/services/models/user.model";
 import { getAge } from "@/utils/age";
-import authRepository from "@/services/repositories/auth.repository";
 import { useAuthManagementStore } from "@/stores/auth.store";
 
 interface ProfileProps {
-  hide: boolean;
   setHide: (value: boolean) => void;
 }
 
@@ -52,7 +50,7 @@ const Profile = (props: ProfileProps) => {
     props.setHide(true);
   };
 
-  return !props.hide ? (
+  return (
     <section className="relative">
       {/* Background */}
       <div className="w-full h-[40vh] relative bg-dark-green">
@@ -149,7 +147,7 @@ const Profile = (props: ProfileProps) => {
         </div>
       </div>
     </section>
-  ) : null;
+  );
 };
 
 export default Profile;

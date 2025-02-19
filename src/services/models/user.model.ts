@@ -3,8 +3,9 @@ export class UserManagement {
   email!: string;
   identificationNo!: string;
   dob!: Date;
-  phoneNo!: number;
-  profileImg!: string;
+  phoneNo!: string;
+  profileImg?: string;
   firstName!: string;
   lastName!: string;
+  isFirstEdit!: boolean;
 }
