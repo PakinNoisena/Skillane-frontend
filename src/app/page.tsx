@@ -6,13 +6,40 @@ import ProfileEdit from "@/components/profile-edit";
 import { AnimatePresence } from "framer-motion";
 import { useUserManagementStore } from "@/stores/user.store";
 import { UserManagement } from "@/services/models/user.model";
+import { useAuthManagementStore } from "@/stores/auth.store";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const [showProfileEdit, setShowProfileEdit] = useState(false);
   const [localUserProfile, setLocalUserProfile] =
-    useState<UserManagement | null>();
+    useState<UserManagement | null>(null);
 
   const { getUserProfile, userProfile } = useUserManagementStore();
+  const { accessToken, loadTokenFromCookie } = useAuthManagementStore();
+
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    const loadToken = async () => {
+      await loadTokenFromCookie();
+      setIsHydrated(true);
+    };
+    loadToken();
+  }, []);
+
+  // **Wait for both hydration and token to load before redirecting**
+  useEffect(() => {
+    if (isHydrated) {
+      if (!accessToken) {
+        console.warn("No access token found, redirecting...");
+        router.push("/signin");
+      } else {
+        getUserProfile();
+      }
+    }
+  }, [isHydrated, accessToken, router]);
 
   useEffect(() => {
     setLocalUserProfile(userProfile);
@@ -21,17 +48,9 @@ export default function Home() {
     }
   }, [userProfile]);
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      await getUserProfile();
-    };
-    fetchUserProfile();
-  }, []);
-
   return (
     <section>
       <Profile setHide={setShowProfileEdit} />
-      {/* <ProfileEdit /> */}
       <AnimatePresence>
         {showProfileEdit && (
           <ProfileEdit

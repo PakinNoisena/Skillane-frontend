@@ -16,4 +16,14 @@ export const UserService = {
 
     return apiRequest("/upload", "POST", formData, true);
   },
+
+  async Register(email: string, password: string) {
+    return apiRequest(
+      "/users/register",
+      "POST",
+      { email, password },
+      false,
+      false
+    );
+  },
 };

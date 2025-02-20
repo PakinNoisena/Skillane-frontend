@@ -7,30 +7,21 @@ import { useUserManagementStore } from "@/stores/user.store";
 import { UserManagement } from "@/services/models/user.model";
 import { getAge } from "@/utils/age";
 import { useAuthManagementStore } from "@/stores/auth.store";
+import { useRouter } from "next/navigation";
 
 interface ProfileProps {
   setHide: (value: boolean) => void;
 }
 
 const Profile = (props: ProfileProps) => {
-  //TODO: will be move to signin page later
-  const { accessToken, logIn, logOut } = useAuthManagementStore();
+  const router = useRouter();
+  const { logOut } = useAuthManagementStore();
 
   const [localUserProfile, setLocalUserProfile] =
     useState<UserManagement | null>();
   const { getUserProfile, userProfile } = useUserManagementStore();
 
   useEffect(() => {
-    //TODO: apply check token here
-    // const sessionData = sessionStorage.getItem("userManagement-storage");
-
-    //TODO: will be move to signin page later
-    const handleLogin = async () => {
-      await logIn("pk2@gmail.com", "1111");
-    };
-
-    handleLogin();
-
     const fetchUserProfile = async () => {
       await getUserProfile();
     };
@@ -42,11 +33,11 @@ const Profile = (props: ProfileProps) => {
   }, [userProfile]);
 
   const onLogout = () => {
-    console.log("🌟⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️🌟 >>>>>> logout");
+    logOut();
+    router.push("/signin");
   };
 
   const onEdit = () => {
-    console.log("🌟⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️⭐️🌟 >>>>>> 2222");
     props.setHide(true);
   };
 

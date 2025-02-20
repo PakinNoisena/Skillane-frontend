@@ -4,12 +4,13 @@ export const apiRequest = async (
   endpoint: string,
   method: "GET" | "POST" | "PATCH" | "DELETE" = "GET",
   body?: any,
-  isFormData: boolean = false
+  isFormData: boolean = false,
+  needAuth: boolean = true
 ) => {
   const { accessToken } = useAuthManagementStore.getState();
   const baseUrl = "http://localhost:8080/skillane";
 
-  if (!accessToken) {
+  if (!accessToken && needAuth) {
     throw new Error("No access token found. User might not be logged in.");
   }
 

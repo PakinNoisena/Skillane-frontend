@@ -10,6 +10,7 @@ export interface UserManagementState {
   getUserProfile: () => Promise<void>;
   updateUserProfile: (body: Partial<UserManagement>) => Promise<void>;
   uploadProfileImage: (file: File) => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
 }
 
 export const useUserManagementStore = create<UserManagementState>()(
@@ -49,6 +50,13 @@ export const useUserManagementStore = create<UserManagementState>()(
             console.error("Image upload failed:", error);
           } finally {
             set({ uploading: false });
+          }
+        },
+        register: async (email: string, password: string) => {
+          try {
+            await UserService.Register(email, password);
+          } catch (error) {
+            console.error("Failed to register user:", error);
           }
         },
       }),

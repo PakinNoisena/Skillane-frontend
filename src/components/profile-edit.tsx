@@ -28,10 +28,18 @@ const ProfileEdit = ({ onClose, userProfileInfo }: EditProfileProps) => {
 
   const { getUserProfile, updateUserProfile, uploadProfileImage } =
     useUserManagementStore();
-
   useEffect(() => {
     if (userProfileInfo) {
-      setFormData(userProfileInfo);
+      setFormData({
+        ...userProfileInfo,
+        firstName: userProfileInfo.firstName ?? "",
+        lastName: userProfileInfo.lastName ?? "",
+        email: userProfileInfo.email ?? "",
+        identificationNo: userProfileInfo.identificationNo ?? "",
+        phoneNo: userProfileInfo.phoneNo ?? "",
+        profileImg: userProfileInfo.profileImg ?? "",
+        dob: userProfileInfo.dob ? userProfileInfo.dob : new Date(), // Ensure date input is always formatted
+      });
     }
   }, [userProfileInfo]);
 
@@ -52,9 +60,10 @@ const ProfileEdit = ({ onClose, userProfileInfo }: EditProfileProps) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "dob" ? new Date(value) : value, // ✅ Convert back to Date when storing
     }));
   };
 
