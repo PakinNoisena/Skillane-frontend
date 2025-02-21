@@ -49,16 +49,20 @@ export default function Home() {
   }, [userProfile]);
 
   return (
-    <section>
-      <Profile setHide={setShowProfileEdit} />
-      <AnimatePresence>
-        {showProfileEdit && (
-          <ProfileEdit
-            onClose={() => setShowProfileEdit(false)}
-            userProfileInfo={localUserProfile ?? ({} as UserManagement)}
-          />
-        )}
-      </AnimatePresence>
-    </section>
+    <>
+      {accessToken && userProfile && (
+        <section>
+          <Profile setHide={setShowProfileEdit} />
+          <AnimatePresence>
+            {showProfileEdit && (
+              <ProfileEdit
+                onClose={() => setShowProfileEdit(false)}
+                userProfileInfo={localUserProfile ?? ({} as UserManagement)}
+              />
+            )}
+          </AnimatePresence>
+        </section>
+      )}
+    </>
   );
 }
