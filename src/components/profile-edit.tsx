@@ -18,7 +18,7 @@ const ProfileEdit = ({ onClose, userProfileInfo }: EditProfileProps) => {
     id: "",
     email: "",
     identificationNo: "",
-    dob: new Date(),
+    dob: new Date("1990-01-01"),
     phoneNo: "",
     profileImg: "",
     firstName: "",
@@ -38,7 +38,7 @@ const ProfileEdit = ({ onClose, userProfileInfo }: EditProfileProps) => {
         identificationNo: userProfileInfo.identificationNo ?? "",
         phoneNo: userProfileInfo.phoneNo ?? "",
         profileImg: userProfileInfo.profileImg ?? "",
-        dob: userProfileInfo.dob ? userProfileInfo.dob : new Date(), // Ensure date input is always formatted
+        dob: userProfileInfo.dob ? userProfileInfo.dob : new Date("1990-01-01"),
       });
     }
   }, [userProfileInfo]);
